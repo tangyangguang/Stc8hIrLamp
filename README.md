@@ -6,6 +6,7 @@ STC8H 红外遥控夜灯产品仓库，包含夜灯固件、遥控器固件和�
 
 - `firmware/lamp`: 红外遥控夜灯固件，使用 SDCC + Makefile。
 - `firmware/remote`: 红外夜灯遥控器固件，使用 PlatformIO + SDCC。
+- `flash_firmware`: 人工整理的最新可烧录固件和 Windows STC-ISP 烧录说明。
 - `legacy/lamp_keil`: 夜灯老 Keil 工程完整归档。
 - `legacy/remote_J3Y_LED_keil`: J3Y 带 LED 遥控器老 Keil 工程完整归档。
 - `legacy/remote_2TY_NoLED_keil`: 2TY 无 LED 遥控器老 Keil 工程完整归档。
@@ -24,6 +25,9 @@ STC8H 红外遥控夜灯产品仓库，包含夜灯固件、遥控器固件和�
 依赖版本记录见 [docs/dependency.md](docs/dependency.md)。
 
 ## 构建与烧录
+
+如果只需要烧录已经整理好的最新固件，可以直接使用 [flash_firmware](flash_firmware/)。
+该目录是允许提交的发布固件副本；`firmware/lamp/build/` 和 `firmware/remote/.pio/` 仍然是本机构建产物，不提交。
 
 夜灯：
 

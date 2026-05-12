@@ -10,6 +10,21 @@
   Stc8hIrLamp/
 ```
 
+## 直接烧录包
+
+根目录 `flash_firmware/` 存放人工整理的最新可烧录固件和 Windows STC-ISP 烧录说明，适合没有开发环境的电脑直接烧录。
+
+该目录是发布固件副本，可以提交到仓库；原始构建产物目录仍然不提交：
+
+- `firmware/lamp/build/`
+- `firmware/remote/.pio/`
+
+当前发布文件：
+
+- `flash_firmware/ir_lamp.ihx`
+- `flash_firmware/remote_J3Y_LED.hex`
+- `flash_firmware/remote_2TY_NoLED.hex`
+
 ## 夜灯固件
 
 ```sh
