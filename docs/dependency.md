@@ -3,7 +3,7 @@
 ## Stc8hBase
 
 - 引用方式：相邻目录引用，不使用 submodule。
-- 默认位置：`/Users/tyg/dir/codex_dir/Stc8hBase`
+- 默认位置：与本仓库同级的 `Stc8hBase/`
 - 夜灯/遥控器验收时记录的基础库提交：`135ce30`
 - 创建本产品仓库时本机基础库当前提交：`50df0a7`
 

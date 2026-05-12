@@ -5,7 +5,7 @@
 默认目录结构：
 
 ```text
-/Users/tyg/dir/codex_dir/
+<workspace>/
   Stc8hBase/
   Stc8hIrLamp/
 ```
@@ -13,7 +13,7 @@
 ## 夜灯固件
 
 ```sh
-cd /Users/tyg/dir/codex_dir/Stc8hIrLamp/firmware/lamp
+cd firmware/lamp
 make clean && make
 ```
 
@@ -22,7 +22,7 @@ make clean && make
 ## 遥控器固件
 
 ```sh
-cd /Users/tyg/dir/codex_dir/Stc8hIrLamp/firmware/remote
+cd firmware/remote
 pio run -t clean
 pio run
 ```

@@ -15,7 +15,7 @@ STC8H 红外遥控夜灯产品仓库，包含夜灯固件、遥控器固件和�
 本仓库不复制 `Stc8hBase`。默认要求目录布局如下：
 
 ```text
-/Users/tyg/dir/codex_dir/
+<workspace>/
   Stc8hBase/
   Stc8hIrLamp/
 ```
