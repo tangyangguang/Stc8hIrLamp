@@ -1,0 +1,65 @@
+# 方案设计
+
+## 总体方案
+
+应用采用单文件小状态机，基础库承担 GPIO、EXTI、PWM、IR NEC 序列、Timer0 精确延时和掉电能力。项目侧只保留业务逻辑：
+
+- 板级配置：引脚、电平、时钟、红外 PWM 参数。
+- 按键扫描：消抖后按固定优先级选择一个按键。
+- 红外发送：完整 NEC 帧和标准 repeat 帧。
+- 电源管理：无按键处理时进入 power-down。
+
+多键同时按下时按 `POWER > UP > DOWN > FN1 > FN2` 的顺序取第一个；遥控器按单键使用设计，不为组合键增加额外逻辑。
+
+板级配置使用基础库编译期裁剪宏：GPIO 只保留实际访问的 P1/P3 分支，PWM 只保留 PWMA CH1 分支。Timer/UART/IR RX 通用模块未加入本工程编译，因此不再额外声明对应裁剪宏。
+
+## 时钟选择
+
+默认使用 6MHz 内部 IRC。理由：
+
+- 遥控器绝大多数时间处于掉电模式，活跃时间短。
+- 6MHz 足够完成按键消抖、PWM 载波门控和 NEC 时序。
+- 相比 12MHz，活跃功耗更低。
+
+红外 38kHz 载波使用 PWM 产生，而不是定时中断翻转 IO。6MHz 下 `period=158`。实测 `duty=53` 时输出高电平占空比约 64%，说明当前 PWM 输出极性下比较值对应低电平时间；因此项目使用 `duty=105`，使实测高电平占空比接近 1/3。
+
+## Repeat 策略
+
+接收端夜灯已确认支持标准 NEC repeat，所以长按时只发送 repeat 帧：
+
+- 首帧：`address + ~address + command + ~command`。
+- Repeat：`9000us mark + 2250us space + 562us mark`。
+
+加亮、减亮键支持 repeat；其他键不支持。
+
+完整 NEC 帧本身约 67.5ms。为了让接收端把 repeat 识别为同一次长按，第一次 repeat 不能等到数百毫秒后再发；本项目在完整帧结束后约 40ms 发送第一次 repeat，使两次红外帧起点间隔接近 NEC 常见的 108ms 到 110ms。后续 repeat 帧本身约 11.8ms，帧后等待 96ms，使 repeat 起点间隔约 108ms，在标准范围内尽量提高连续调光速度。
+
+单发键发送完整帧后进入 one-shot 锁定，并最多保持清醒 80ms 等待释放。若窗口内检测到释放，立即清除锁定，下一次快速按下可以触发；若 80ms 后仍按住，则保持锁定并允许掉电，下一次重新按下的下降沿再唤醒。
+
+## LED 策略
+
+LED 默认启用，但只做首次按下确认短闪，持续约 5ms。
+
+不让 LED 跟随 38kHz 载波翻转，因为它增加功耗、耦合红外逻辑，也不提供有价值的用户反馈。
+
+如果硬件不焊 LED，默认开启代码通常不会产生 LED 电流；若后续量产要极限省电，可把 `APP_LED_FEEDBACK_ENABLE` 改为 0。
+
+## 低功耗
+
+空闲时进入掉电模式，通过 INT0-INT4 唤醒。亮度键长按期间不进入掉电，避免错过释放和 repeat 节奏；松手后立即回到掉电。消抖、LED 短闪、repeat gap 和单发键释放窗口都通过 Timer0 精确延时实现，不再链接粗略空循环延时。
+
+## 基础库边界
+
+本项目依赖基础库以下能力：
+
+- `drv_ir_tx_nec_begin`
+- `drv_ir_tx_nec_repeat_begin`
+- `drv_ir_tx_nec_next`
+- `stc8h_delay_timer0_1t_init`
+- `stc8h_delay_timer0_1t_us`
+- `stc8h_exti_configure/enable/clear_flag`
+- `stc8h_gpio_*`
+- `stc8h_pwm_*`
+- `stc8h_power_down`
+
+若后续发现这些能力在目标芯片或 SDCC 下不可用，应先回到 `Stc8hBase` 修复，不在本项目做寄存器级绕开。

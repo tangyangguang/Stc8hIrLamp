@@ -1,0 +1,556 @@
+C51 COMPILER V9.60.7.0   MAIN                                                              12/09/2025 16:43:08 PAGE 1   
+
+
+C51 COMPILER V9.60.7.0, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN .\Objects\main.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE main.c LARGE OMF2 OPTIMIZE(8,SPEED) BROWSE INCDIR(.\_libs) DEBUG PRINT(.
+                    -\Listings\main.lst) OBJECT(.\Objects\main.obj)
+
+line level    source
+
+   1          #include "type_def.h"
+   2          #include "STC8H.H"
+   3          #include "intrins.h" // _nop_() º¯Êý
+   4          
+   5          
+   6          
+   7          /**
+   8          NEC±àÂë¤œÊÇºìÍâÒ£¿Ø¤œ×î³£ÓÃµÄ±àÂë·½Ê½£¬ÆäÌØµã°üÀ¨£º
+   9          
+  10          ÔØ²¨ÆµÂÊ£ºNEC±àÂëµÄÔØ²¨ÆµÂÊÎª38 kHz¡£
+  11          ±àÂë·½Ê½£ºNECÐ­Òé²ÉÓÃÂö³å¼ä¸ô¤œµÄ·½Ê½±àÂëÃ¿Ò»Î»Êý¾Ý£¬ÓÃ²»Í¬Êý¾ÝÎ»µÄÊ±¼ä¼ä¸ôÀ´±íÊ¾²»Í¬µÄÂß¼­Î»¡£
+  12          ÃüÁîÖ¡½á¹¹£º
+  13          ÆðÊ¼Î»£ºÃ¿¸öÐòÁÐ¾ùÒÔ9msµÄÂö³å¿ªÊ¼£¬ËæºóÊÇ4.5msµÄ¿ÕÏÐ¼ä¸ô¡£
+  14          µØÖ·Âë¤œ + µØÖ·Âë·´Âë£ºÆðÊ¼Î»Ö®ºó»á´«Êä4¸ö×Ö½Ú¹²32BitµÄÊý¾ÝÎ»£¬·Ö±ðÊÇµØÖ·Âë+µØÖ·Âë·´Âë+ÃüÁîÂë+ÃüÁîÂë·´Âë¡£
+             -ÆäÖÐ£¬µØÖ·ÂëºÍÃüÁîÂëÊÇÓÐÐ§µÄ£¬¶øµØÖ·Âë·´ÂëºÍÃüÁîÂë·´ÂëÓÃÓÚÐ£Ñé¡£
+  15          ½áÊøÎ»£º½áÊøÎ»ÎªÄ©Î²µÄ562.5¦ÌsµÄÓÐÐ§Âö³å¡£
+  16          ÖØ¸´Âë¤œ£º¼´Ê¹Ò»Ö±°´×¡Ò£¿ØÆ÷ÉÏµÄÒ»¸ö¼ü£¬ÃüÁîÖ¡Ò²Ö»»á·¢ËÍÒ»´Î¡£Ö»Òª°´¼ü±£³Ö°´ÏÂ×´Ì¬£¬¾Í»áÃ¿110ºÁÃë·¢ËÍÒ»´ÎÖ
+             -Ø¸´Âë¡£ÖØ¸´ÂëµÄ×é³ÉÎª9msµÄAGCÂö³å+2.25msµÄ¿ÕÏÐ¼ä¸ô+560¦ÌsµÄÂö³å¡£
+  17          Âö³å¿í¶Èµ÷ÖÆ£ºNECÐ­ÒéÍ¨¹ýÂö³å´®Ö®¼äµÄÊ±¼ä¼ä¸ôÀ´ÊµÏÖÐÅºÅµÄµ÷ÖÆ¡£Âß¼­¡°0¡±ÊÇÓÉ0.56msµÄ38KHZÔØ²¨ºÍ0.560msµÄÎÞ
+             -ÔØ²¨¼ä¸ô×é³É£»Âß¼­¡°1¡±ÊÇÓÉ0.56msµÄ38KHZÔØ²¨ºÍ1.68msµÄÎÞÔØ²¨¼ä¸ô×é³É¡£
+  18          NEC±àÂëµÄºìÍâÐÅºÅ´«ÊäÐ­ÒéÊÇÄ¿Ç°ºìÍâÒ£¿ØÊ¹ÓÃ×îÆÕ±éµÄÐÅºÅ´«ÊäÐ­Òé£¬Ëü²ÉÓÃÂö³å¼ä¾à±àÂëÀ´±íÊ¾ÐÅºÅ
+  19          
+  20          
+  21          
+  22          
+  23          
+  24          ÔÚÒ£¿ØÆ÷ÉÏ°´Ä³¸ö¼üÊ±£¬´«ÊäµÄÏûÏ¢½«°´Ë³Ðò°üº¬ÒÔÏÂÄÚÈÝ£º
+  25          
+  26          Òýµ¼Âë£º³ÖÐø9ms ¸ßµçÆ½£¬4.5msµÍµçÆ½£¬×÷ÎªÆô¶¯ÐÅºÅ£»
+  27          ½ô½Ó×ÅÊÇ32bitµÄÊý¾Ý£¬°´ÕÕÉÏÊöµÄNECÖ¡¸ñÊ½µÄË³Ðò£»×îºóÒÔ562.5¦ÌsÂö³å¸ßµçÆ½½áÎ²£¬±íÊ¾Ò»Ö¡ÏûÏ¢´«Êä½áÊø¡£
+  28          
+  29          
+  30          Òýµ¼Âë    ±íÊ¾¿ªÊ¼·¢ËÍÊý¾Ý
+  31          Êý¾ÝÂë0 ±íÊ¾Êý¾ÝÎª0
+  32          Êý¾ÝÂë1 ±íÊ¾Êý¾ÝÎª1
+  33          ÖØ¸´Âë          ±íÊ¾ÖØ¸´ÉÏ´ÎµÄÊý¾Ý
+  34          ½áÊøÂë  ÔÚ·¢ËÍÍêÊý¾ÝÖ¡»òÖØ¸´Ö¡Ö®ºóµÄÕ¼Î»·û
+  35          
+  36          
+  37          Òýµ¼Âë£º
+  38                  ÓÉ9ms¸ßµçÆ½ÉÁÁÁºÍ4.5msµÍµçÆ½²»ÁÁ¹¹³É£¬¹²13.5ms
+  39                  ±íÊ¾Êý¾ÝÖ¡µÄ¿ªÊ¼
+  40                  
+  41          Êý¾ÝÂë0
+  42                  ÓÉ0.5625ms¸ßµçÆ½ÉÁÁÁºÍ0.5625msµÍµçÆ½²»ÁÁ¹¹³É£¬¹²1.125ms
+  43                  ±íÊ¾Êý¾Ý0
+  44                  
+  45          Êý¾ÝÂë1
+  46                  ÓÉ0.5625ms¸ßµçÆ½ÉÁÁÁºÍ1.6875ms£¨3x0.5625£©µÍµçÆ½²»ÁÁ¹¹³É£¬¹²2.25ms
+  47                  ±íÊ¾Êý¾Ý1
+  48          
+  49          ÖØ¸´Âë
+  50                  ÓÉ9ms¸ßµçÆ½ÉÁÁÁºÍ2.25msµÍµçÆ½²»ÁÁ¹¹³É£¬¹²11.25ms
+  51                  ±íÊ¾ÖØ¸´Ö®Ç°µÄÊý¾Ý
+C51 COMPILER V9.60.7.0   MAIN                                                              12/09/2025 16:43:08 PAGE 2   
+
+  52                  
+  53          ½áÊøÎ»
+  54                  ÓÉ0.5625ms¸ßµçÆ½ÉÁÁÁ¹¹³É
+  55                  ÓÃÓÚÊý¾ÝÖ¡»òÖØ¸´ÂëÖ®ºóµÄÕ¼Î»
+  56                  
+  57                  
+  58          Êý¾Ý½á¹¹
+  59                  ±ê×¼NEC±àÂëÎª4byte£¨32bit£©Êý¾Ý¹¹³É£¬
+  60                  ·Ö±ðÊÇ1byteµØÖ·+1byteµØÖ··´Âë+1byteÊý¾Ý+1byteÊý¾Ý·´Âë
+  61          
+  62          µ«Ä¿Ç°ºÜ¶à³§ÉÌ²¢²»Ê¹ÓÃ±ê×¼µÄNECÊý¾Ý½á¹¹£¬¿ÉÄÜÓÐ5byteÊý¾Ý£¬¿ÉÄÜÈ«²¿4byte¶¼ÓÃÓÚÊý¾Ý´«ÊäµÈµÈ
+  63                  
+  64          
+  65          https://blog.csdn.net/qq_36470994/article/details/127414629
+  66          
+  67          */
+  68          
+  69          
+  70          /**
+  71          // °´¼üÊ¹ÓÃÏÂÀ­µç×è£¬°´ÏÂÊÇ1£¬ËÉ¿ªÊÇ0
+  72             ÏÂÀ­µÄ°´¼üÐèÒª°ÑIO¿ÚÉèÖÃÎª¸ß×èÊäÈë
+  73          #define BUTTON_ON  1
+  74          #define BUTTON_OFF 0
+  75          */
+  76          
+  77          
+  78          /* °´¼üÊ¹ÓÃÉÏÀ­µç×è£¬°´ÏÂÊÇ0£¬ËÉ¿ªÊÇ1
+  79          ** ÉÏÀ­µÄ°´¼ü ²»ÐèÒª °ÑIO¿ÚÉèÖÃÎª¸ß×èÊäÈë£¬Ê¹ÓÃ×¼Ë«Ïò¿Ú»ò¸ß×èÊäÈë¶¼¿ÉÒÔ£¬ºÃÏñÊ¹ÓÃ×¼Ë«Ïò¿ÚÊ±µôµçÄ£Ê½»á¸üÊ¡µ
+             -ç
+  80          ** ¾­²âÊÔ£º
+  81          **       Ê¹ÓÃ¸ß×èÊäÈë£¨P3M0 = 0x00; P3M1 = 0x0f; //P30 P31 P32 P33 ÉèÖÃÎª¸ß×èÊäÈë£© ÕâÊ±½øÈëµôµçÄ£Ê½Ô¼0.019mA
+  82          **   Ê¹ÓÃ×¼Ë«Ïò¿Ú£¬½øÈëµôµçÄ£Ê½Ô¼0.016mA
+  83          */
+  84          #define BUTTON_ON  0
+  85          #define BUTTON_OFF 1
+  86          
+  87          
+  88          
+  89          /* 
+  90          ** Õâ3¸ö°´¼üÐèÒª½Ó10KµÄÉÏÀ­µç×è
+  91          */
+  92          #define POWER_SW_IO                     P32 // °´Å¥£¬Ò£¿Ø¼ü£º¿ª¹Ø
+  93          #define INCREASE_BRIGHTNESS_IO  P33 // °´Å¥£¬Ò£¿Ø¼ü£º¼ÓÁÁ
+  94          #define DECREASE_BRIGHTNESS_IO  P36     // °´Å¥£¬Ò£¿Ø¼ü£º¼õÁÁ
+  95          
+  96          #define SW_FN1_IO                               P37 // Ò£¿Ø°´Å¥£¬¹¦ÄÜ¼ü1
+  97          #define SW_FN2_IO                               P30 // Ò£¿Ø°´Å¥£¬¹¦ÄÜ¼ü2
+  98          
+  99          /**
+ 100           ½ÓS8050£¨J3Y£©Èý¼«¹Ü£¬NPNÀàÐÍ
+ 101          */
+ 102          #define IR_EMITTER_ON  1   // ·¢ÉäºìÍâ
+ 103          #define IR_EMITTER_OFF 0   // ¹Ø±ÕºìÍâ
+ 104          
+ 105          /**
+ 106           ½ÓS8050£¨J3Y£©Èý¼«¹Ü£¬NPNÀàÐÍ
+ 107          */
+ 108          #define LED_ON  1   
+ 109          #define LED_OFF 0   
+ 110          
+ 111          
+ 112          
+C51 COMPILER V9.60.7.0   MAIN                                                              12/09/2025 16:43:08 PAGE 3   
+
+ 113          #define IR_EMITTER_IO   P10  // ¶¨ÒåºìÍâ·¢ÉäµÄ¹Ü½Å
+ 114          #define LED_IO                  P11  // ¶¨ÒåLEDÖ¸Ê¾µÆµÄ¹Ü½Å
+ 115          
+ 116          
+ 117          
+ 118          // ÎÒµÄºìÍâÐ¡Ò£¿ØµÆµÄ°´¼üÃüÁî¶¨Òå
+ 119          #define POWER_SW_IR_CODE                        0x11    // ºìÍâÃüÁî£¬Ò£¿Ø¼ü£º¿ª¹Ø
+ 120          #define INCREASE_BRIGHTNESS_IR_CODE 0x22        // ºìÍâÃüÁî£¬Ò£¿Ø¼ü£º¼ÓÁÁ
+ 121          #define DECREASE_BRIGHTNESS_IR_CODE 0x33        // ºìÍâÃüÁî£¬Ò£¿Ø¼ü£º¼õÁÁ
+ 122          
+ 123          #define IR_CODE_FN1 0x51        // ºìÍâÃüÁî£¬Ò£¿Ø¼ü£ºFN1
+ 124          #define IR_CODE_FN2 0x52        // ºìÍâÃüÁî£¬Ò£¿Ø¼ü£ºFN2
+ 125          
+ 126          
+ 127          
+ 128          
+ 129          bit IR_Emitter_38K_Flag = 0;                    // ÊÇ·ñ·¢Éä38k²¨ÐÎ±êÖ¾Î»
+ 130          unsigned int IR_Emitter_Count=0;                // ÖÐ¶Ï¼ÆÊý
+ 131          unsigned int IR_Emitter_Set_Count = 0;  // ÉèÖÃÖÐ¶Ï¼ÆÊý´ÎÊý
+ 132          
+ 133          
+ 134          unsigned int stopModeTimeCount_13us = 0; 
+ 135          unsigned int  btnTimeCount_13us = 0;
+ 136          
+ 137          
+ 138          
+ 139          // ·¢ÉäºìÍâ
+ 140          void IR_Emitter_ON(){
+ 141   1              IR_EMITTER_IO = IR_EMITTER_ON;   
+ 142   1              LED_IO = LED_ON;
+ 143   1      }
+ 144          
+ 145          
+ 146          // ¹Ø±ÕºìÍâ
+ 147          void IR_Emitter_OFF(){
+ 148   1              IR_EMITTER_IO = IR_EMITTER_OFF;   
+ 149   1              LED_IO = LED_OFF;
+ 150   1      }
+ 151          
+ 152          
+ 153          // ÇÐ»»ºìÍâ¿ª¹Ø
+ 154          void IR_Emitter_Toggle(){
+ 155   1              IR_EMITTER_IO = ~IR_EMITTER_IO;   
+ 156   1              LED_IO = ~LED_IO;
+ 157   1      }
+ 158          
+ 159          
+ 160          /************************ IO¿ÚÅäÖÃ ****************************/
+ 161          // ³õÊ¼»¯Òý½Å
+ 162          void IO_Init(){
+ 163   1              P1M1 = 0X00; P1M0 = 0X00; // ×¼Ë«Ïò¿Ú
+ 164   1              P3M1 = 0X00; P3M0 = 0X00; // ×¼Ë«Ïò¿Ú
+ 165   1              P5M1 = 0X00; P5M0 = 0X00; // ×¼Ë«Ïò¿Ú
+ 166   1      
+ 167   1              // P55¿Ú½ÓÁËºìÍâ·¢ÉäLED£¬Ê¹ÓÃÁËS8550Èý¼«¹Ü£¨»ù¼«¼Ó1Kµç×è£©
+ 168   1        // Ä¬ÈÏµÄ×¼Ë«Ïò¿ÚÄ£Ê½£¬¿ÉÒÔÇý¶¯Èý¼«¹Ü¿ØÖÆºìÍâ·¢ÉäLED
+ 169   1              // ¸ÄÎªÍÆÍìÊä³ö£¬Ð§¹û¸üºÃÁË£¨Ê¹ÓÃµÄÊ±2025Å¦¿Ûµç³Ø£¬Ò£¿Ø¾àÀëÃ÷ÏÔ±äÔ¶ÁË£©
+ 170   1              // ×îºó¸ÄÎª£º²»ÉèÖÃÍÆÍìÊä³ö£¬»ù¼«Ò²²»¼Óµç×èÁË
+ 171   1      //      P5M0 = 0x20; P5M1 = 0x00;  // P55 ÉèÖÃÎªÍÆÍìÊä³ö
+ 172   1      
+ 173   1              // P10, P11 ÉèÖÃÎªÍÆÍìÊä³ö
+ 174   1          P1M0 = 0x03; P1M1 = 0x00; 
+C51 COMPILER V9.60.7.0   MAIN                                                              12/09/2025 16:43:08 PAGE 4   
+
+ 175   1      
+ 176   1      }
+ 177          
+ 178          
+ 179          void Timer0_Init(void)          //13Î¢Ãë@12.000MHz
+ 180          {
+ 181   1              AUXR |= 0x80;                   //¶¨Ê±Æ÷Ê±ÖÓ1TÄ£Ê½
+ 182   1              //TMOD &= 0xF0;                 //ÉèÖÃ¶¨Ê±Æ÷Ä£Ê½
+ 183   1              TMOD = 0x00;                    //ÉèÖÃ¶¨Ê±Æ÷Ä£Ê½
+ 184   1              TL0 = 0x64;                             //ÉèÖÃ¶¨Ê±³õÊ¼Öµ
+ 185   1              TH0 = 0xFF;                             //ÉèÖÃ¶¨Ê±³õÊ¼Öµ
+ 186   1              TF0 = 0;                                //Çå³ýTF0±êÖ¾
+ 187   1              TR0 = 1;                                //¶¨Ê±Æ÷0¿ªÊ¼¼ÆÊ±
+ 188   1              ET0 = 1;                                //Ê¹ÄÜ¶¨Ê±Æ÷0ÖÐ¶Ï
+ 189   1      }
+ 190          
+ 191          
+ 192          
+ 193          void Timer0_Isr(void) interrupt 1
+ 194          {
+ 195   1              stopModeTimeCount_13us++;
+ 196   1              btnTimeCount_13us ++;
+ 197   1      
+ 198   1              if(IR_Emitter_Set_Count > 0){
+ 199   2                      IR_Emitter_Count++;   // Ã¿ÖÐ¶ÏÒ»´Î¼Ó1
+ 200   2                      
+ 201   2                      if(IR_Emitter_38K_Flag)   // ·¢Éä38k²¨ÐÎ±êÖ¾Î»
+ 202   2                      {
+ 203   3                              // IR_EMITTER_IO = ~IR_EMITTER_IO; //ÓÐ·¢Éä±êÖ¾£¬Ôò·¢Éä38KhzµÄ¾ØÐÎ²¨
+ 204   3                              IR_Emitter_Toggle();
+ 205   3                      }
+ 206   2                      else  // ·ñÔò²»·¢ËÍ Ïàµ±ÓÚ·¢Éä±àÂëÖÐµÄµÍµçÆ½
+ 207   2                      {
+ 208   3                              // IR_EMITTER_IO = IR_EMITTER_OFF; 
+ 209   3                              IR_Emitter_OFF();
+ 210   3                      }
+ 211   2              }
+ 212   1      }
+ 213          
+ 214          
+ 215          
+ 216          // ÑÓÊ±£¬µ¥Î»ºÁÃë
+ 217          void delay_ms(unsigned int ms)   //@12MHz
+ 218          {
+ 219   1              unsigned char data i, j;
+ 220   1              for(ms; ms; ms--)
+ 221   1              { 
+ 222   2                      i = 16;
+ 223   2                      j = 147;
+ 224   2                      do
+ 225   2                      {
+ 226   3                              while (--j);
+ 227   3                      } while (--i);
+ 228   2              }
+ 229   1      }
+ 230          
+ 231          
+ 232          u8 btnFlag = 0; // °´¼üÊÇ·ñ°´ÏÂµÄ±êÖ¾
+ 233          u8 INT_TX_IRCode = 0;
+ 234          
+ 235          
+ 236          
+C51 COMPILER V9.60.7.0   MAIN                                                              12/09/2025 16:43:08 PAGE 5   
+
+ 237          void INT0_Isr() interrupt 0  // P32   ¿ª¹Ø
+ 238          {
+ 239   1              btnFlag = 1;
+ 240   1              btnTimeCount_13us = 0; 
+ 241   1              INT_TX_IRCode = POWER_SW_IR_CODE;
+ 242   1      }
+ 243          
+ 244          
+ 245          
+ 246          
+ 247          void INT1_Isr() interrupt 2  // P33,  ¼ÓÁÁ
+ 248          {
+ 249   1              btnFlag = 2;
+ 250   1              btnTimeCount_13us = 0; 
+ 251   1              INT_TX_IRCode = INCREASE_BRIGHTNESS_IR_CODE;
+ 252   1      }
+ 253          
+ 254          
+ 255          void INT2_Isr() interrupt 10  // P54,  ¼õÁÁ
+ 256          {
+ 257   1              btnFlag = 3;
+ 258   1              btnTimeCount_13us = 0; 
+ 259   1              INT_TX_IRCode = DECREASE_BRIGHTNESS_IR_CODE; 
+ 260   1      }
+ 261          
+ 262                
+ 263          
+ 264          void INT3_Isr() interrupt 11    // P37, FN1
+ 265          {
+ 266   1         btnFlag = 4;
+ 267   1              btnTimeCount_13us = 0; 
+ 268   1              INT_TX_IRCode = IR_CODE_FN1; 
+ 269   1      }
+ 270          
+ 271          
+ 272          
+ 273          void INT4_Isr() interrupt 16    // P30, FN2
+ 274          {
+ 275   1          btnFlag = 5;
+ 276   1              btnTimeCount_13us = 0; 
+ 277   1              INT_TX_IRCode = IR_CODE_FN2; 
+ 278   1      }
+ 279                        
+ 280          
+ 281          
+ 282           // ºìÍâ·¢ËÍÒ»×Ö½ÚÊý¾Ý
+ 283          
+ 284          void IR_NEC_Send_Byte(unsigned char ircode)              
+ 285          {
+ 286   1              unsigned char i;
+ 287   1              
+ 288   1              for(i=0;i<8;i++)             // Ò»×Ö½Ú°ËÎ»£¬Ñ­»·°Ë´Î
+ 289   1              {
+ 290   2                      IR_Emitter_Set_Count = 43;      // 0.56ms¸ßµçÆ½£¬ÐèÒª½ø43´Î¶¨Ê±Æ÷1ÖÐ¶Ï£¨560/13=43£©
+ 291   2                      IR_Emitter_38K_Flag = 1;        // ·¢Éä38KHzÔØ²¨±êÖ¾
+ 292   2                      IR_Emitter_Count = 0;           // countÖÃ0£¬´ÓÕâÊ±Æð¼ÇÂ¼½øÈë¶¨Ê±Æ÷1ÖÐ¶ÏµÄ´ÎÊý
+ 293   2      
+ 294   2                      while(IR_Emitter_Count < IR_Emitter_Set_Count);  // ÔÚ´ËµÈ´ý£¬Ö±µ½½øÈëÖÐ¶Ï´ÎÊý´ïµ½43´Î
+ 295   2      
+ 296   2                      IR_Emitter_Set_Count = 0;               
+ 297   2                      IR_Emitter_38K_Flag = 0;              
+ 298   2                      IR_Emitter_Count = 0;               
+C51 COMPILER V9.60.7.0   MAIN                                                              12/09/2025 16:43:08 PAGE 6   
+
+ 299   2       
+ 300   2              
+ 301   2                      
+ 302   2                      if(ircode&0x01)          // Êý¾ÝÊÇ´Ó×îµÍÎ»¿ªÊ¼·¢ËÍµÄ£¬×îµÍÎ»ÊÇ1ÔòÒª½ø130´ÎÖÐ¶Ï
+ 303   2                      {
+ 304   3                              IR_Emitter_Set_Count = 130;       // 1.69msµÍµçÆ½£¬½øÖÐ¶Ï×Ü´ÎÊý130£¨1690/13=130£©
+ 305   3                      }
+ 306   2                      else                     // ×îµÍÎ»ÊÇ0£¬ÔòÒª½ø43´Î¶¨Ê±Æ÷1ÖÐ¶Ï
+ 307   2                      {
+ 308   3                              IR_Emitter_Set_Count = 43;        // 0.565msµÍµçÆ½£¬½øÖÐ¶Ï×Ü´ÎÊý43£¨565/13=43£©
+ 309   3                      }
+ 310   2      
+ 311   2                      IR_Emitter_38K_Flag = 0;              // µÍµçÆ½£¬²»ÐèÒª38kHzÔØ²¨
+ 312   2                      IR_Emitter_Count = 0;
+ 313   2                      
+ 314   2                      while(IR_Emitter_Count < IR_Emitter_Set_Count);
+ 315   2                      
+ 316   2                      IR_Emitter_Set_Count = 0;               
+ 317   2                      IR_Emitter_38K_Flag = 0;              
+ 318   2                      IR_Emitter_Count = 0;     
+ 319   2                      
+ 320   2                      
+ 321   2                      ircode = ircode >> 1;    // ½«Êý¾ÝÓÒÒÆÒ»Î»£¬¼´´ÓµÍÎ»µ½¸ßÎ»·¢ËÍ
+ 322   2              }
+ 323   1      }
+ 324          
+ 325          
+ 326          /**
+ 327          https://blog.csdn.net/Mark_md/article/details/115053032
+ 328          
+ 329          ÃüÁîÖ¡ÓÉ ÆðÊ¼Î» + µØÖ·Âë8Î» + µØÖ·Âë·´Âë8Î» + ÃüÁîÂë8Î» + ÃüÁîÂë·´Âë8Î»  ×é³É
+ 330          ±ê×¼NEC±àÂëÎª4byte£¨32bit£©Êý¾Ý¹¹³É£¬
+ 331          ·Ö±ðÊÇ 1byteµØÖ· + 1byteµØÖ··´Âë + 1byteÊý¾Ý + 1byteÊý¾Ý·´Âë
+ 332          
+ 333          µ«Ä¿Ç°ºÜ¶à³§ÉÌ²¢²»Ê¹ÓÃ±ê×¼µÄNECÊý¾Ý½á¹¹£¬¿ÉÄÜÓÐ5byteÊý¾Ý£¬¿ÉÄÜÈ«²¿4byte¶¼ÓÃÓÚÊý¾Ý´«ÊäµÈµÈ
+ 334          */
+ 335          
+ 336          /**
+ 337            * @param address ·¢ËÍµÄµØÖ·
+ 338            * @param command ·¢ËÍµÄÃüÁî/Êý¾Ý
+ 339            * @retval ÎÞ
+ 340            */
+ 341          void IR_NEC_Send(unsigned char address,unsigned char command)
+ 342          {
+ 343   1              //
+ 344   1              // Òýµ¼ÂëÖÐµÄ9ms¸ßµçÆ½£¬9000/13=692
+ 345   1              IR_Emitter_Set_Count = 692;               
+ 346   1              IR_Emitter_38K_Flag = 1;                  // ¸ßµçÆ½ÐèÒª38kHzÔØ²¨
+ 347   1              IR_Emitter_Count = 0;               
+ 348   1       
+ 349   1              while(IR_Emitter_Count < IR_Emitter_Set_Count); // ÔÚ´ËµÈ´ý£¬Ö±µ½½øÈëÖÐ¶Ï´ÎÊý´ïµ½Éè¶¨´ÎÊý
+ 350   1              
+ 351   1              IR_Emitter_Set_Count = 0;               
+ 352   1              IR_Emitter_38K_Flag = 0;              
+ 353   1              IR_Emitter_Count = 0;               
+ 354   1       
+ 355   1              
+ 356   1              //
+ 357   1              // Òýµ¼ÂëÖÐ4.5msµÍµçÆ½£¬4500/13=346
+ 358   1              IR_Emitter_Set_Count = 346;               
+ 359   1              IR_Emitter_38K_Flag = 0;                  // µÍµçÆ½²»ÐèÒª38kHzÔØ²¨
+ 360   1              IR_Emitter_Count = 0;
+C51 COMPILER V9.60.7.0   MAIN                                                              12/09/2025 16:43:08 PAGE 7   
+
+ 361   1       
+ 362   1              while(IR_Emitter_Count < IR_Emitter_Set_Count); // ÔÚ´ËµÈ´ý£¬Ö±µ½½øÈëÖÐ¶Ï´ÎÊý´ïµ½Éè¶¨´ÎÊý
+ 363   1      
+ 364   1              IR_Emitter_Set_Count = 0;               
+ 365   1              IR_Emitter_38K_Flag = 0;              
+ 366   1              IR_Emitter_Count = 0;       
+ 367   1              
+ 368   1              
+ 369   1              //
+ 370   1              // ·¢ËÍÊý¾Ý
+ 371   1              IR_NEC_Send_Byte(address);                                              // ·¢ËÍµØÖ·Âë
+ 372   1              IR_NEC_Send_Byte(~address);                                             // ·¢ËÍµØÖ·Âë·´Âë
+ 373   1              IR_NEC_Send_Byte(command);                                              // ·¢ËÍÃüÁîÂë
+ 374   1              IR_NEC_Send_Byte(~command);                                             // ·¢ËÍÃüÁîÂë·´Âë
+ 375   1      
+ 376   1      
+ 377   1              //
+ 378   1              // 0.56ms¸ßµçÆ½£¬560/13=43
+ 379   1              IR_Emitter_Set_Count = 43;        
+ 380   1              IR_Emitter_38K_Flag = 1;          // ¸ßµçÆ½ÐèÒª38kHzÔØ²¨
+ 381   1              IR_Emitter_Count = 0;
+ 382   1                                                                                                              
+ 383   1              while(IR_Emitter_Count < IR_Emitter_Set_Count); 
+ 384   1              
+ 385   1              IR_Emitter_Set_Count = 0;               
+ 386   1              IR_Emitter_38K_Flag = 0;              
+ 387   1              IR_Emitter_Count = 0;       
+ 388   1              
+ 389   1      
+ 390   1              //
+ 391   1              // (NECÐ­ÒéÖÐµÄÍ£Ö¹Âë)0.56msµÍµçÆ½
+ 392   1              IR_Emitter_Set_Count = 43;               
+ 393   1              IR_Emitter_38K_Flag = 0;
+ 394   1              IR_Emitter_Count = 0;
+ 395   1              
+ 396   1              while(IR_Emitter_Count < IR_Emitter_Set_Count);
+ 397   1       
+ 398   1              IR_Emitter_Set_Count = 0;               
+ 399   1              IR_Emitter_38K_Flag = 0;              
+ 400   1              IR_Emitter_Count = 0;       
+ 401   1      
+ 402   1      
+ 403   1              //
+ 404   1              // ¹Ø±ÕºìÍâ·¢Éä
+ 405   1              // IR_EMITTER_IO = IR_EMITTER_OFF;     
+ 406   1              IR_Emitter_OFF();       
+ 407   1      }
+ 408          
+ 409          
+ 410          
+ 411          
+ 412          
+ 413          u8 NEC_Code_Address = 0x01; // ±¾Ò£¿ØÆ÷µÄµØÖ·Âë
+ 414          
+ 415          
+ 416          void main(){
+ 417   1              u8 btnValue = 0;
+ 418   1      
+ 419   1              EAXSFR();               // À©Õ¹¼Ä´æÆ÷·ÃÎÊÊ¹ÄÜ
+ 420   1              IO_Init();      // ³õÊ¼»¯Òý½Å 
+ 421   1              Timer0_Init();  //³õÊ¼»¯¶¨Ê±Æ÷0
+ 422   1              
+C51 COMPILER V9.60.7.0   MAIN                                                              12/09/2025 16:43:08 PAGE 8   
+
+ 423   1              IT0 = 1;            //Ê¹ÄÜINT0ÏÂ½µÑØÖÐ¶Ï, P32
+ 424   1              EX0 = 1;        //Ê¹ÄÜINT0ÖÐ¶Ï
+ 425   1      
+ 426   1              IT1 = 1;                //Ê¹ÄÜINT1ÏÂ½µÑØÖÐ¶Ï, P33
+ 427   1              EX1 = 1;        //Ê¹ÄÜINT1ÖÐ¶Ï
+ 428   1      
+ 429   1              INTCLKO = 0x10;         //Ê¹ÄÜINT2ÏÂ½µÑØÖÐ¶Ï
+ 430   1              INTCLKO |= 0x20;        //Ê¹ÄÜINT3ÏÂ½µÑØÖÐ¶Ï
+ 431   1              INTCLKO |= 0x40;    //Ê¹ÄÜINT4ÏÂ½µÑØÖÐ¶Ï
+ 432   1      
+ 433   1              
+ 434   1              EA = 1;                         // ´ò¿ªÖÐ¶Ï×Ü¿ª¹Ø
+ 435   1              _nop_();
+ 436   1              _nop_();
+ 437   1              _nop_();
+ 438   1              _nop_();
+ 439   1              _nop_();
+ 440   1              
+ 441   1              // ¹Ø±Õ²ÅÄÜ½øÈëµôµçÄ£Ê½
+ 442   1              IR_EMITTER_IO = IR_EMITTER_OFF;
+ 443   1              LED_IO = LED_OFF; // Ä¬ÈÏ¹Ø±ÕLED
+ 444   1              
+ 445   1              // https://www.stcaimcu.com/forum.php?mod=viewthread&tid=1732&highlight=%E6%8E%89%E7%94%B5%E6%A8%A1%E5%BC
+             -%8F&page=1&extra=#pid11168
+ 446   1              // ×îºÃÔÚÖ÷³ÌÐò½øÈëË¯Ãß£¬ÖÁÉÙÒª3¸ö¿Õ²Ù×÷£¨NOP£©
+ 447   1              // ½øÈëµôµçÄ£Ê½
+ 448   1              PCON |= 0x02;
+ 449   1              _nop_();
+ 450   1              _nop_();
+ 451   1              _nop_();
+ 452   1              _nop_();
+ 453   1              _nop_();
+ 454   1                              
+ 455   1                              
+ 456   1              while(1){
+ 457   2                              
+ 458   2                      if(btnFlag != 0){
+ 459   3                              
+ 460   3                              // ¸ù¾Ý°´¼ü±àÂë»ñÈ¡IOµÄ°´Å¥Öµ 
+ 461   3                              if(btnFlag == 1){
+ 462   4                                      btnValue = POWER_SW_IO;
+ 463   4                              }
+ 464   3                              else if(btnFlag == 2){
+ 465   4                                      btnValue = INCREASE_BRIGHTNESS_IO;
+ 466   4                              }
+ 467   3                              else if(btnFlag == 3){
+ 468   4                                      btnValue = DECREASE_BRIGHTNESS_IO;
+ 469   4                              }
+ 470   3                              else if(btnFlag == 4){
+ 471   4                                      btnValue = SW_FN1_IO;
+ 472   4                              }
+ 473   3                              else if(btnFlag == 5){
+ 474   4                                      btnValue = SW_FN2_IO;
+ 475   4                              }
+ 476   3                              
+ 477   3                              // ¸ù¾Ý°´Å¥·¢ÉäÏàÓ¦µÄºìÍâÐÅºÅ
+ 478   3                              if( (btnValue == BUTTON_ON) && (btnTimeCount_13us>= 500) ){ // Ê¹ÓÃÖÐ¶ÏµÄ·½Ê½£¬Ò²ÐèÒª°´¼üÏû¶¶
+ 479   4                                      IR_NEC_Send(NEC_Code_Address, INT_TX_IRCode);  // ·¢ÉäºìÍâÃüÁî
+ 480   4      
+ 481   4                                      btnFlag = 0;                            // Çå¿Õ°´Å¥×´Ì¬
+ 482   4                                      btnTimeCount_13us = 0;          // ¼ÆÊ±ÇåÁã
+ 483   4                                      stopModeTimeCount_13us = 0;     // ¼ÆÊ±ÇåÁã
+C51 COMPILER V9.60.7.0   MAIN                                                              12/09/2025 16:43:08 PAGE 9   
+
+ 484   4                              }       
+ 485   3                      }
+ 486   2                      
+ 487   2                      
+ 488   2                      // ³¬¹ýÒ»¶ÎÊ±¼äºó£¨ºÁÃë£©£¬½øÈëµôµçÄ£Ê½£¬ºÃÊ¡µç
+ 489   2                      // ±ØÐëÒªÑÓºóÒ»¶ÎÊ±¼äµôµç²ÅÐÐ£¬ÒªÁô³öºìÍâ·¢ÉäµÄÊ±¼ä£¬·ñÔò¿ÉÄÜºìÍâÃüÁîÃ»·¢ËÍÍê¾ÍµôµçÁË
+ 490   2                      // Í¨¹ýÍâ²¿ÖÐ¶Ï¿ÉÒÔ»½ÐÑ
+ 491   2                      if(stopModeTimeCount_13us >= 30000){
+ 492   3                              stopModeTimeCount_13us = 0;
+ 493   3                              
+ 494   3                              // ½øÈëµôµçÄ£Ê½£¬²âÊÔ½øÈëµôµçÄ£Ê½ºó´óÔ¼0.02mA£¨²âÊÔ¿ÕÏÐÄ£Ê½ºÃÏñÃ»ÓÐÃ÷ÏÔÊ¡µç£©
+ 495   3                              // Ê¹ÓÃUSBÁ¬½ÓµçÄÔÊ±£¬½øÈëµôµçÄ£Ê½´óÔ¼0.02mA
+ 496   3                              // Ê¹ÓÃ2½Ú7ºÅµç³Ø£¬½øÈëµôµçÄ£Ê½´óÔ¼0.4uA£¬
+ 497   3                              PCON |=0x02;
+ 498   3                              _nop_();
+ 499   3                              _nop_();
+ 500   3                              _nop_();
+ 501   3                              _nop_();
+ 502   3                              _nop_();                        
+ 503   3                      }
+ 504   2                              
+ 505   2              }
+ 506   1      
+ 507   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    891    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =     11    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----       2
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =      1    ----
+   EDATA SIZE       =   ----    ----
+   HDATA SIZE       =   ----    ----
+   XDATA CONST SIZE =   ----    ----
+   FAR CONST SIZE   =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

@@ -1,0 +1,68 @@
+C51 COMPILER V9.60.7.0   IR_PWM_NEC_SENDER                                                 03/08/2024 13:26:48 PAGE 1   
+
+
+C51 COMPILER V9.60.7.0, COMPILATION OF MODULE IR_PWM_NEC_SENDER
+OBJECT MODULE PLACED IN .\Objects\IR_PWM_NEC_Sender.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE _libs\IR_PWM_NEC_Sender.c LARGE OMF2 OPTIMIZE(8,SPEED) BROWSE INCDIR(.\_
+                    -libs) DEBUG PRINT(.\Listings\IR_PWM_NEC_Sender.lst) OBJECT(.\Objects\IR_PWM_NEC_Sender.obj)
+
+line level    source
+
+   1          #include "STC8H.h"
+   2          #include        "IR_PWM_NEC_Sender.h"
+   3          
+   4          
+   5          
+   6          
+   7          
+   8          
+   9          
+  10          
+  11          
+  12          
+  13          // Ê¹ÓÃPWM·½Ê½·¢ËÍÖ¸¶¨Êý¾Ý
+  14          /**
+  15                  @txData_us_Values       Òª·¢ËÍµÄÊý¾Ý£¬ÒÑ¾­×ª»»ºóµÄÊ¹ÓÃÎ¢Ãëus±íÊ¾µÄÊý¾ÝÄÚÈÝ£¨Ò»¸öÖµ±íÊ¾Ò»¸öÊý¾Ýbit£¬+ºÅ±íÊ¾¸ßµç
+             -Æ½£¬-ºÅ±íÊ¾µÍµçÆ½£¬ÊýÖµ±íÊ¾Ê±³¤£¬µ¥Î»Î¢Ãëus£©
+  16                  @len Êý×é³¤¶È
+  17          */
+  18          void IR_PWM_Send(int txData_us_Values[],  unsigned int len)
+  19          {
+  20   1              unsigned char i;
+  21   1              int dataByte;
+  22   1              
+  23   1              // ·¢ËÍÊý¾Ý
+  24   1              for(i=0; i < len; i++){
+  25   2                      dataByte = txData_us_Values[i];
+  26   2                      
+  27   2                      if(dataByte == 0){
+  28   3                              continue;
+  29   3                      }
+  30   2                      
+  31   2                      IR_Emitter_38K_Flag = (dataByte > 0);                   // ¸ßµçÆ½ÐèÒª38kHzÔØ²¨
+*** ERROR C202 IN LINE 31 OF _libs\IR_PWM_NEC_Sender.c: 'IR_Emitter_38K_Flag': undefined identifier
+  32   2                      IR_Emitter_Set_Count = (dataByte>0 ? dataByte : (0-dataByte)) / 13;  // ¶¨Ê±Æ÷0Éè¶¨µÄÊÇ13us´¥·¢Ò»´Î£¬ËùÒ
+             -Ô³ýÒÔ13´ïµ½Éè¶¨µÄÊ±³¤
+*** ERROR C202 IN LINE 32 OF _libs\IR_PWM_NEC_Sender.c: 'IR_Emitter_Set_Count': undefined identifier
+  33   2                      IR_Emitter_Count = 0; 
+*** ERROR C202 IN LINE 33 OF _libs\IR_PWM_NEC_Sender.c: 'IR_Emitter_Count': undefined identifier
+  34   2                      
+  35   2                      TR0 = 1;                                                                                                                // ¶¨Ê±Æ÷0¿ªÆô¼ÆÊ±
+  36   2                      while(IR_Emitter_Count < IR_Emitter_Set_Count); // ÔÚ´ËµÈ´ý£¬Ö±µ½½øÈëÖÐ¶Ï´ÎÊý´ïµ½Éè¶¨´ÎÊý£¬¼´´ïµ½ÁËÉè¶¨µ
+             -ÄÊ±³¤
+*** ERROR C202 IN LINE 36 OF _libs\IR_PWM_NEC_Sender.c: 'IR_Emitter_Count': undefined identifier
+  37   2                      TR0 = 0;                                                                                                                // ¶¨Ê±Æ÷0¹Ø±Õ¼ÆÊ±
+  38   2              }
+  39   1              
+  40   1              
+  41   1              // ¹Ø±ÕºìÍâ·¢Éä
+  42   1              IR_EMITTER_IO = IR_EMITTER_OFF;                  
+  43   1      }
+  44          
+  45          
+  46          
+  47          
+C51 COMPILER V9.60.7.0   IR_PWM_NEC_SENDER                                                 03/08/2024 13:26:48 PAGE 2   
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  4 ERROR(S)

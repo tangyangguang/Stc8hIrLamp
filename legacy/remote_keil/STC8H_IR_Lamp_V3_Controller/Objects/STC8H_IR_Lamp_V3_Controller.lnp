@@ -1,0 +1,4 @@
+".\Objects\main.obj" 
+TO ".\Objects\STC8H_IR_Lamp_V3_Controller" 
+
+PRINT(".\Listings\STC8H_IR_Lamp_V3_Controller.map") REMOVEUNUSED 

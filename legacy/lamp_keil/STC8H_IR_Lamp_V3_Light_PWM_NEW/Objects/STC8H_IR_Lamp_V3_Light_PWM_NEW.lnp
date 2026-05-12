@@ -1,0 +1,7 @@
+".\Objects\main.obj",
+".\Objects\STC8G_H_NVIC.obj",
+".\Objects\STC8H_PWM.obj",
+".\Objects\STC8H_PWM_Isr.obj" 
+TO ".\Objects\STC8H_IR_Lamp_V3_Light_PWM_NEW" 
+
+PRINT(".\Listings\STC8H_IR_Lamp_V3_Light_PWM_NEW.map") REMOVEUNUSED 
