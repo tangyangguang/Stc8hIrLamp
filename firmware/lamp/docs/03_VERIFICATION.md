@@ -46,11 +46,20 @@ make clean && make LOW_POWER_UNUSED_IO=0
 
 ## 2. 烧录和串口
 
-烧录并打开串口：
+在 `firmware/lamp` 目录下执行。
+
+烧录：
 
 ```sh
-/tmp/stcgal-venv/bin/python -m stcgal -P stc8g -p /dev/cu.usbserial-110 -b 38400 -t 6000 build/ir_lamp.ihx && \
-pio device monitor --port /dev/cu.usbserial-110 --baud 115200
+<stcgal-python> -m stcgal -P stc8g -p <serial-port> -b 38400 -t 6000 build/ir_lamp.ihx
+```
+
+其中 `<stcgal-python>` 是安装了 `stcgal` 的 Python 解释器，`<serial-port>` 是 USB 串口设备，例如 macOS 下的 `/dev/cu.usbserial-110`。看到 `Waiting for MCU` 后，给目标板断电再上电。
+
+打开串口：
+
+```sh
+pio device monitor --port <serial-port> --baud 115200
 ```
 
 预期启动输出：

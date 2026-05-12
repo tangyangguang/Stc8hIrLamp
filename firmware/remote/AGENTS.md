@@ -1,7 +1,7 @@
 # 项目规则
 
 - 本项目是 STC8H1K08 红外夜灯遥控器，使用相邻目录中的 `Stc8hBase` 基础库从零开发。
-- 老 Keil 工程已归档到产品仓库 `legacy/remote_keil/`，只作为历史归档，不作为设计约束；不要为了兼容旧实现背负包袱。
+- 老 Keil 工程已归档到产品仓库 `legacy/remote_J3Y_LED_keil/` 和 `legacy/remote_2TY_NoLED_keil/`，只作为历史归档，不作为设计约束；不要为了兼容旧实现背负包袱。
 - 本项目只能修改本项目文件，不能修改 `Stc8hBase`；若发现基础库 bug 或能力缺失，先给出基础库完善提示词。
 - 基础库必须通过引用接入：`src/base/*.c` wrapper include `../../../../../Stc8hBase/...`，不要复制基础库源码。
 - 开发环境是 macOS + PlatformIO + SDCC，不使用 Keil 工程作为交付目标。
@@ -11,7 +11,8 @@
 - MCU：STC8H1K08。
 - 主频：6MHz 内部 IRC；`STC8H_SYSCLK_HZ`、`board_build.f_cpu`、stcgal trim 必须一致。
 - 烧录默认：`stc8g`、`38400`、`custom_stcgal_trim = 6000`。
-- 红外输出：P1.0，PWMA CH1，6MHz 下 `period=158`，实测约 37.9kHz。
+- 红外输出：P1.0，PWMA CH1，6MHz 下 `period=158`，实测约 37.9kHz；默认 `STC8H1K08` 环境为 J3Y 带 LED，高电平发射。
+- `STC8H1K08_2TY_NoLED` 环境用于 2TY 无 LED 版本，低电平发射，并关闭 LED 反馈。
 - 本板 PWM 占空比已实测校准：`APP_IR_PWM_DUTY=105`，不要改回理论 1/3 的 53；53 实测高电平约 64%。
 - LED：P1.1，默认启用，只在首次按键确认时短闪约 5ms，不跟随 38kHz 载波。
 - 按键外部上拉，按下为低电平，通过 INT0-INT4 唤醒。

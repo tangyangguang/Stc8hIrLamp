@@ -65,7 +65,7 @@ static void app_ir_carrier_on(void)
 static void app_ir_carrier_off(void)
 {
     (void)stc8h_pwm_disable(APP_IR_PWM_CHANNEL);
-    stc8h_gpio_write(BOARD_IR_PORT, BOARD_IR_PIN, 0u);
+    stc8h_gpio_write(BOARD_IR_PORT, BOARD_IR_PIN, APP_IR_IDLE_LEVEL);
 }
 
 static void app_ir_send_tx(drv_ir_tx_nec_t *tx)
@@ -242,7 +242,7 @@ static void app_configure_key_pin(stc8h_u8 port, stc8h_u8 pin)
 
 static void app_io_init(void)
 {
-    stc8h_gpio_write(BOARD_IR_PORT, BOARD_IR_PIN, 0u);
+    stc8h_gpio_write(BOARD_IR_PORT, BOARD_IR_PIN, APP_IR_IDLE_LEVEL);
     stc8h_gpio_set_mode(BOARD_IR_PORT, BOARD_IR_PIN, STC8H_GPIO_MODE_PUSH_PULL);
 
     app_led_off();
@@ -358,7 +358,7 @@ void main(void)
 
         app_delay_ms(APP_DEBOUNCE_MS);
         if ((app_sleep_while_key_pressed != APP_KEY_NONE) &&
-            (app_key_is_pressed(app_sleep_while_key_pressed) == 0u)) {
+            ((app_woke != 0u) || (app_key_is_pressed(app_sleep_while_key_pressed) == 0u))) {
             app_sleep_while_key_pressed = APP_KEY_NONE;
         }
 

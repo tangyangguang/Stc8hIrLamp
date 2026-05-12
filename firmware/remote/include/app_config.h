@@ -15,7 +15,9 @@
 #define APP_KEY_ACTIVE_LEVEL 0u
 
 #define APP_DEBOUNCE_MS             10u
+#ifndef APP_LED_FEEDBACK_ENABLE
 #define APP_LED_FEEDBACK_ENABLE      1u
+#endif
 #define APP_LED_FLASH_MS             5u
 #define APP_SINGLE_RELEASE_WINDOW_MS 80u
 #define APP_REPEAT_FIRST_GAP_MS     40u
@@ -23,6 +25,18 @@
 
 #define APP_IR_PWM_CHANNEL 1u
 #define APP_IR_PWM_PERIOD  158u
+#ifndef APP_IR_PWM_DUTY
 #define APP_IR_PWM_DUTY    105u
+#endif
+
+#ifndef APP_IR_ACTIVE_LEVEL
+#define APP_IR_ACTIVE_LEVEL 1u
+#endif
+
+#if APP_IR_ACTIVE_LEVEL
+#define APP_IR_IDLE_LEVEL 0u
+#else
+#define APP_IR_IDLE_LEVEL 1u
+#endif
 
 #endif
