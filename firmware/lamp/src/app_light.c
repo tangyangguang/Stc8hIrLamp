@@ -6,6 +6,8 @@
 #define APP_LIGHT_PWM_CHANNEL STC8H_PWM_CHANNEL_1
 #define APP_LIGHT_PWM_FREQ_HZ 1000UL
 #define APP_LIGHT_PWM_PERIOD ((stc8h_u16)((STC8H_SYSCLK_HZ / APP_LIGHT_PWM_FREQ_HZ) - 1UL))
+#define APP_LIGHT_DUTY(percent) \
+    ((stc8h_u16)((((STC8H_SYSCLK_HZ / APP_LIGHT_PWM_FREQ_HZ) - 1UL) * (percent)) / 100UL))
 #define APP_LIGHT_DEFAULT_LEVEL_INDEX 8u
 #define APP_LIGHT_REPEAT_INTERVAL_MS 100u
 #define APP_LIGHT_LED_FLASH_MS 50u
@@ -13,8 +15,22 @@
 #define APP_LIGHT_TIMER_15_MIN_SEC 900u
 #define APP_LIGHT_TIMER_60_MIN_SEC 3600u
 
-static const STC8H_CODE stc8h_u8 brightness_levels[] = {
-    1u, 2u, 3u, 5u, 9u, 15u, 20u, 25u, 30u, 40u, 50u, 60u, 70u, 80u, 90u
+static const STC8H_CODE stc8h_u16 brightness_duty[] = {
+    APP_LIGHT_DUTY(1UL),
+    APP_LIGHT_DUTY(2UL),
+    APP_LIGHT_DUTY(3UL),
+    APP_LIGHT_DUTY(5UL),
+    APP_LIGHT_DUTY(9UL),
+    APP_LIGHT_DUTY(15UL),
+    APP_LIGHT_DUTY(20UL),
+    APP_LIGHT_DUTY(25UL),
+    APP_LIGHT_DUTY(30UL),
+    APP_LIGHT_DUTY(40UL),
+    APP_LIGHT_DUTY(50UL),
+    APP_LIGHT_DUTY(60UL),
+    APP_LIGHT_DUTY(70UL),
+    APP_LIGHT_DUTY(80UL),
+    APP_LIGHT_DUTY(90UL)
 };
 
 static stc8h_u8 light_on;
@@ -30,17 +46,9 @@ static void app_light_led_set(stc8h_u8 on)
     stc8h_gpio_write(BOARD_STATUS_LED_PORT, BOARD_STATUS_LED_PIN, on);
 }
 
-static stc8h_u16 app_light_duty_from_percent(stc8h_u8 percent)
-{
-    return (stc8h_u16)(((stc8h_u32)APP_LIGHT_PWM_PERIOD * percent) / 100u);
-}
-
 static void app_light_apply_pwm(void)
 {
-    stc8h_u16 duty;
-
-    duty = app_light_duty_from_percent(brightness_levels[level_index]);
-    (void)stc8h_pwm_set_duty(APP_LIGHT_PWM_CHANNEL, duty);
+    (void)stc8h_pwm_set_duty(APP_LIGHT_PWM_CHANNEL, brightness_duty[level_index]);
 }
 
 static void app_light_output_on(void)
@@ -78,7 +86,7 @@ static void app_light_level_up(void)
     if (light_on == 0u) {
         return;
     }
-    if (level_index < ((stc8h_u8)sizeof(brightness_levels) - 1u)) {
+    if (level_index < ((stc8h_u8)(sizeof(brightness_duty) / sizeof(brightness_duty[0])) - 1u)) {
         ++level_index;
     }
     app_light_apply_pwm();

@@ -285,15 +285,13 @@ stc8h_u8 app_ir_is_active(void)
     return ((stc8h_u16)(now_ticks - edge_ticks) <= APP_IR_IDLE_TIMEOUT_TICKS) ? 1u : 0u;
 }
 
-void app_ir_on_edge_isr(void)
+void app_ir_feed_edge_isr(stc8h_u8 input_high, stc8h_u16 now_ticks)
 {
-    stc8h_u16 now_ticks;
     stc8h_u16 width_ticks;
     stc8h_u16 width_us;
     stc8h_u8 current_level;
 
-    now_ticks = board_timer0_read();
-    current_level = (BOARD_IR_RX_READ() != 0u) ? APP_IR_LEVEL_SPACE : APP_IR_LEVEL_MARK;
+    current_level = (input_high != 0u) ? APP_IR_LEVEL_SPACE : APP_IR_LEVEL_MARK;
 
     if (sleeping != 0u) {
         sleeping = 0u;

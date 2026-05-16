@@ -100,6 +100,7 @@ ir repeat action=none
 
 - INT0 向量入口在 `src/main.c`，由 `STC8H_INTERRUPT(..., STC8H_VECTOR_INT0)` 生成。
 - `build/main.lst` 显示 `0x0003` 处跳转到 `_app_int0_isr`。
+- `build/main.lst` 显示 power-down 入口中 `setb 0xaf` 与 `orl 0x87, #0x02` 相邻。
 - INT0 配置为双边沿。
 - `build/stc8h_exti.lst` 显示配置 INT0 时清 `EX0/IE0` 后写 `IT0`，使能时置 `EX0`。
 - P3.2 配置为输入，开启数字输入和上拉。
@@ -115,32 +116,33 @@ ir repeat action=none
 - repeat 只作用于增亮/减亮。
 - 电源键 repeat 不触发开关；每个有效普通帧按标准命令处理一次。
 - power-down 前 P1.0 拉低，INT0 保持可唤醒。
+- `build/ir_lamp.map` 不应出现 `__divulong`、`__mullong`、`_stc8h_power_down`。
 
 ## 4. 资源占用
 
 默认 `IR_UART_DEBUG=1 IR_VERBOSE_DEBUG=0 POWER_DOWN_ENABLE=1`:
 
-- ROM: 6128 bytes。
+- ROM: 5837 bytes。
 - External RAM: 27 bytes。
-- Stack starts at `0x66`，可用 154 bytes。
+- Stack starts at `0x5f`，可用 161 bytes。
 
 关闭 UART 调试 `IR_UART_DEBUG=0 POWER_DOWN_ENABLE=1`:
 
-- ROM: 5461 bytes。
+- ROM: 5170 bytes。
 - External RAM: 27 bytes。
-- Stack starts at `0x5e`，可用 162 bytes。
+- Stack starts at `0x59`，可用 167 bytes。
 
 关闭未用 IO 收敛 `LOW_POWER_UNUSED_IO=0`:
 
-- ROM: 6106 bytes。
+- ROM: 5815 bytes。
 - External RAM: 27 bytes。
-- Stack starts at `0x66`，可用 154 bytes。
+- Stack starts at `0x5f`，可用 161 bytes。
 
 详细诊断 `IR_UART_DEBUG=1 IR_VERBOSE_DEBUG=1 POWER_DOWN_ENABLE=1`:
 
-- ROM: 6323 bytes。
+- ROM: 6024 bytes。
 - External RAM: 38 bytes。
-- Stack starts at `0x6c`，可用 148 bytes。
+- Stack starts at `0x65`，可用 155 bytes。
 
 ## 5. 硬件验证记录
 
@@ -172,6 +174,7 @@ ir repeat action=none
 - 关灯后 P1.0 为低电平。
 - 关灯后整机电流进入低功耗预期范围。
 - power-down 后按遥控能唤醒。
+- 关灯睡眠临界点附近按键，不应出现可感知的按键吞失。
 - P1.0 PWM 实测约 1 kHz。
 
 ## 7. 资料来源

@@ -60,7 +60,7 @@
 
 - 默认串口：`/dev/cu.usbserial-110`。
 - 常用烧录命令：
-  `/tmp/stcgal-venv/bin/python -m stcgal -P stc8g -p /dev/cu.usbserial-110 -b 38400 -t 6000 build/ir_lamp.ihx`
+  `<stcgal-python> -m stcgal -P stc8g -p /dev/cu.usbserial-110 -b 38400 -t 6000 build/ir_lamp.ihx`
 - 常用监视命令：
   `pio device monitor --port /dev/cu.usbserial-110 --baud 115200`
 - 如果烧录出现 `Protocol error`，该次固件不可视为有效测试结果。

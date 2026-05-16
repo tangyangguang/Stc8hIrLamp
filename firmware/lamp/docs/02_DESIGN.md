@@ -16,7 +16,6 @@
 - Timer0 12T free-run。
 - UART1。
 - PWM。
-- power-down 入口。
 - NEC mark/space 脉宽解码。
 
 本项目启用基础库通用裁剪宏以适配 STC8H1K08 8KB flash：
@@ -44,9 +43,14 @@
 
 1. 读取 Timer0。
 2. 读取 P3.2 当前电平。
-3. 计算与上次边沿的 tick 差。
-4. 转成 us。
-5. 将上一段 mark/space 脉宽喂给 `drv_ir_rx_feed_pulse()`。
+3. 将原始边沿输入交给 `app_ir_feed_edge_isr()`。
+
+`app_ir_feed_edge_isr()` 继续完成：
+
+1. 将输入电平映射为 mark/space。
+2. 计算与上次边沿的 tick 差。
+3. 转成 us。
+4. 将上一段 mark/space 脉宽喂给 `drv_ir_rx_feed_pulse()`。
 
 主循环负责：
 
@@ -178,8 +182,7 @@ make clean && make LOW_POWER_UNUSED_IO=0
 
 进入前：
 
-- P1.0 拉低并配置为推挽输出。
-- P1.1 拉低并配置为推挽输出。
+- P1.0/P1.1 保持运行态推挽输出并拉低。
 - P3.2 配置为高阻输入。
 - 开启 P3.2 数字输入和上拉。
 - 停止 Timer0。
@@ -187,6 +190,8 @@ make clean && make LOW_POWER_UNUSED_IO=0
 - P3 未用脚配置为高阻输入，关闭上拉和数字输入。
 - UART1 的 P3.0/P3.1 在 power-down 前也按未用脚处理；唤醒后如开启调试，会重新初始化 UART1。
 - 清除 INT0 标志，保持 INT0 使能。
+- 全局中断关闭期间完成睡眠准备，进入 power-down 前若 INT0 标志已置位或 P3.2 已经为低，则取消本次睡眠。
+- 真正进入 power-down 时，`EA=1` 与 `PCON|=PD` 在同一段入口代码中相邻执行，减少唤醒边沿落在两者之间的窗口。
 
 唤醒后：
 

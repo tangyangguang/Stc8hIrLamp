@@ -45,6 +45,15 @@ cd firmware/lamp
 
 其中 `<stcgal-python>` 是安装了 `stcgal` 的 Python 解释器，`<serial-port>` 是 USB 串口设备，例如 macOS 下的 `/dev/cu.usbserial-110`。
 
+夜灯默认构建会带 UART 调试日志，便于验收红外解码和低功耗唤醒。准备发布给最终烧录包时，优先使用关闭调试的构建以节省 ROM 并释放 UART 引脚：
+
+```sh
+cd firmware/lamp
+make clean && make IR_UART_DEBUG=0
+```
+
+发布包如果继续使用默认调试构建，必须在 `flash_firmware/MANIFEST.md` 记录对应构建参数和 SHA1。
+
 ## 遥控器固件
 
 默认 J3Y 带 LED 版本：

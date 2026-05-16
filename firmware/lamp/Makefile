@@ -47,10 +47,6 @@ SRCS := \
 	$(BASE)/hal/stc8h_exti.c \
 	$(BASE)/drivers/drv_ir_rx.c
 
-ifeq ($(POWER_DOWN_ENABLE),1)
-SRCS += $(BASE)/hal/stc8h_power.c
-endif
-
 ifeq ($(IR_UART_DEBUG),1)
 SRCS += $(BASE)/hal/stc8h_uart.c
 endif

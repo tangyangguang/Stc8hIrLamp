@@ -22,6 +22,6 @@ void app_ir_prepare_sleep(void);
 void app_ir_after_wake(void);
 void app_ir_poll(app_ir_event_t *event);
 stc8h_u8 app_ir_is_active(void);
-void app_ir_on_edge_isr(void);
+void app_ir_feed_edge_isr(stc8h_u8 input_high, stc8h_u16 now_ticks);
 
 #endif

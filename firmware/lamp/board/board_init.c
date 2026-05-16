@@ -94,8 +94,6 @@ void board_prepare_power_down(void)
 {
     stc8h_gpio_write(BOARD_LAMP_PWM_PORT, BOARD_LAMP_PWM_PIN, 0u);
     stc8h_gpio_write(BOARD_STATUS_LED_PORT, BOARD_STATUS_LED_PIN, 0u);
-    stc8h_gpio_set_mode(BOARD_LAMP_PWM_PORT, BOARD_LAMP_PWM_PIN, STC8H_GPIO_MODE_PUSH_PULL);
-    stc8h_gpio_set_mode(BOARD_STATUS_LED_PORT, BOARD_STATUS_LED_PIN, STC8H_GPIO_MODE_PUSH_PULL);
     stc8h_gpio_set_mode(BOARD_IR_RX_PORT, BOARD_IR_RX_PIN, STC8H_GPIO_MODE_INPUT_ONLY);
     board_configure_unused_io_power_down();
     P3IE |= BOARD_IR_RX_MASK;
