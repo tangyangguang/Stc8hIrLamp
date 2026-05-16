@@ -24,6 +24,7 @@
 - `STC8H_PWM_CHANNEL_MASK=0x01`: 只保留 PWMA channel 1。
 - `STC8H_TIMER_ENABLE_1MS=0`: 不编译 Timer0 1ms 初始化。
 - `STC8H_TIMER_ENABLE_TIMER0_FREE_RUN=1`: 保留 Timer0 12T free-run。
+- `STC8H_TIMER0_ROLE_FREE_RUN`: 声明 Timer0 被本固件作为 free-run 使用，和基础库 1T delay 角色互斥。
 - `STC8H_TIMER_ENABLE_TIMER0_RESET=1`: 保留唤醒后 Timer0 reset。
 - `STC8H_TIMER_ENABLE_RUN_CONTROL=1`: 保留 Timer start/stop。
 - `STC8H_TIMER_ENABLE_INTERRUPT_CONTROL=0`: 不编译 Timer 中断控制 API。
@@ -32,6 +33,8 @@
 - `STC8H_UART_ENABLE_RX=0`: 不编译 UART 轮询接收。
 - `DRV_IR_RX_ENABLE_PULSE=1`: 保留 NEC mark/space pulse 解码。
 - `DRV_IR_RX_ENABLE_FALLING=0`: 不编译 falling interval 解码。
+
+`debug-ir` 诊断固件单独使用 `DRV_IR_RX_ENABLE_FALLING=1`，并链接 `stc8h_exti_disable.c`，用于打印 falling interval 和离线解码。
 
 本次评估未发现阻塞本项目的基础库 bug。GPIO 上拉和数字输入使能目前在板级代码中通过 STC8H SFR 设置，属于板级电气配置；后续若多个项目复用，可再沉淀为基础库 API。
 

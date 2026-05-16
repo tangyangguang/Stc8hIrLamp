@@ -9,7 +9,7 @@ GPIO_PORT_MASK ?= 0x0A
 PWM_CHANNEL_MASK ?= 0x01
 
 CC := sdcc
-CFLAGS := -mmcs51 --std-sdcc11 \
+CFLAGS_COMMON := -mmcs51 --std-sdcc11 \
 	-Iboard \
 	-Isrc \
 	-I$(BASE)/core \
@@ -26,14 +26,21 @@ CFLAGS := -mmcs51 --std-sdcc11 \
 	-DSTC8H_PWM_CHANNEL_MASK=$(PWM_CHANNEL_MASK) \
 	-DSTC8H_TIMER_ENABLE_1MS=0 \
 	-DSTC8H_TIMER_ENABLE_TIMER0_FREE_RUN=1 \
+	-DSTC8H_TIMER0_ROLE_FREE_RUN \
 	-DSTC8H_TIMER_ENABLE_TIMER0_RESET=1 \
 	-DSTC8H_TIMER_ENABLE_RUN_CONTROL=1 \
 	-DSTC8H_TIMER_ENABLE_INTERRUPT_CONTROL=0 \
 	-DSTC8H_UART_ASSUME_UART1=1 \
 	-DSTC8H_UART_ENABLE_WRITE_RAM=0 \
-	-DSTC8H_UART_ENABLE_RX=0 \
+	-DSTC8H_UART_ENABLE_RX=0
+
+APP_CFLAGS := $(CFLAGS_COMMON) \
 	-DDRV_IR_RX_ENABLE_PULSE=1 \
 	-DDRV_IR_RX_ENABLE_FALLING=0
+
+DEBUG_IR_CFLAGS := $(CFLAGS_COMMON) \
+	-DDRV_IR_RX_ENABLE_PULSE=1 \
+	-DDRV_IR_RX_ENABLE_FALLING=1
 
 SRCS := \
 	src/main.c \
@@ -61,6 +68,7 @@ DEBUG_IR_SRCS := \
 	$(BASE)/hal/stc8h_gpio.c \
 	$(BASE)/hal/stc8h_timer.c \
 	$(BASE)/hal/stc8h_exti.c \
+	$(BASE)/hal/stc8h_exti_disable.c \
 	$(BASE)/hal/stc8h_uart.c \
 	$(BASE)/drivers/drv_ir_rx.c
 DEBUG_IR_OBJS := $(patsubst %.c,$(BUILD)/debug_%.rel,$(notdir $(DEBUG_IR_SRCS)))
@@ -76,16 +84,16 @@ $(BUILD):
 	mkdir -p $(BUILD)
 
 $(BUILD)/%.rel: %.c | $(BUILD)
-	$(CC) $(CFLAGS) -c -o $@ $<
+	$(CC) $(APP_CFLAGS) -c -o $@ $<
 
 $(BUILD)/debug_%.rel: %.c | $(BUILD)
-	$(CC) $(CFLAGS) -c -o $@ $<
+	$(CC) $(DEBUG_IR_CFLAGS) -c -o $@ $<
 
 $(TARGET): $(OBJS) | $(BUILD)
-	$(CC) $(CFLAGS) --out-fmt-ihx -o $(TARGET) $(OBJS)
+	$(CC) $(APP_CFLAGS) --out-fmt-ihx -o $(TARGET) $(OBJS)
 
 $(DEBUG_IR_TARGET): $(DEBUG_IR_OBJS) | $(BUILD)
-	$(CC) $(CFLAGS) --out-fmt-ihx -o $(DEBUG_IR_TARGET) $(DEBUG_IR_OBJS)
+	$(CC) $(DEBUG_IR_CFLAGS) --out-fmt-ihx -o $(DEBUG_IR_TARGET) $(DEBUG_IR_OBJS)
 
 clean:
 	rm -rf $(BUILD)

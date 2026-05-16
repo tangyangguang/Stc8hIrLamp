@@ -109,6 +109,7 @@ ir repeat action=none
 - `build/main.lst` 显示进入 power-down 前调用 `board_timer0_stop()`。
 - 默认 `APP_SLEEP_GUARD_MS=2000`，连续快速按键时先保持清醒，停手后再进入 power-down。
 - Timer0 为 12T 16-bit free-run，6 MHz 下 tick 为 2 us。
+- 正式固件定义 `STC8H_TIMER0_ROLE_FREE_RUN`。
 - UART1 为 115200。
 - PWM 为 P1.0 / PWMA channel 1，频率 1 kHz。
 - 红外解码使用 `drv_ir_rx_feed_pulse()`，按 mark/space 脉宽解析普通帧和 repeat。
@@ -117,6 +118,7 @@ ir repeat action=none
 - 电源键 repeat 不触发开关；每个有效普通帧按标准命令处理一次。
 - power-down 前 P1.0 拉低，INT0 保持可唤醒。
 - `build/ir_lamp.map` 不应出现 `__divulong`、`__mullong`、`_stc8h_power_down`。
+- `make debug-ir` 应生成 `build/debug_ir.ihx`；该目标单独启用 falling interval 解码并链接 `stc8h_exti_disable.c`。
 
 ## 4. 资源占用
 

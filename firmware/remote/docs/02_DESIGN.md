@@ -13,6 +13,8 @@
 
 板级配置使用基础库编译期裁剪宏：GPIO 只保留实际访问的 P1/P3 分支，PWM 只保留 PWMA CH1 分支。Timer/UART/IR RX 通用模块未加入本工程编译，因此不再额外声明对应裁剪宏。
 
+本固件显式定义 `STC8H_TIMER0_ROLE_1T_DELAY`，声明 Timer0 被 `stc8h_delay_timer0_1t_*` 独占使用，和基础库 free-run 角色互斥。
+
 ## 硬件变体
 
 默认 `STC8H1K08` 构建环境面向 J3Y/S8050 带 LED 遥控器：
