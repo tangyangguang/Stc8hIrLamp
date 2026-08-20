@@ -58,13 +58,13 @@ static void app_led_flash_once(void)
 
 static void app_ir_carrier_on(void)
 {
-    (void)stc8h_pwm_set_duty(APP_IR_PWM_CHANNEL, APP_IR_PWM_DUTY);
-    (void)stc8h_pwm_enable(APP_IR_PWM_CHANNEL);
+    (void)stc8h_pwm_set_duty(APP_IR_PWM_GROUP, APP_IR_PWM_CHANNEL, APP_IR_PWM_DUTY);
+    (void)stc8h_pwm_enable(APP_IR_PWM_GROUP, APP_IR_PWM_CHANNEL);
 }
 
 static void app_ir_carrier_off(void)
 {
-    (void)stc8h_pwm_disable(APP_IR_PWM_CHANNEL);
+    (void)stc8h_pwm_disable(APP_IR_PWM_GROUP, APP_IR_PWM_CHANNEL);
     stc8h_gpio_write(BOARD_IR_PORT, BOARD_IR_PIN, APP_IR_IDLE_LEVEL);
 }
 
@@ -258,8 +258,10 @@ static void app_io_init(void)
 static void app_ir_init(void)
 {
     (void)stc8h_delay_timer0_1t_init();
-    (void)stc8h_pwm_init(APP_IR_PWM_CHANNEL, APP_IR_PWM_PERIOD);
-    (void)stc8h_pwm_set_duty(APP_IR_PWM_CHANNEL, 0u);
+    (void)stc8h_pwm_set_prescaler(APP_IR_PWM_GROUP, APP_IR_PWM_PRESCALER);
+    (void)stc8h_pwm_set_period(APP_IR_PWM_GROUP, APP_IR_PWM_PERIOD);
+    (void)stc8h_pwm_init_channel(APP_IR_PWM_GROUP, APP_IR_PWM_CHANNEL, APP_IR_PWM_PIN);
+    (void)stc8h_pwm_set_duty(APP_IR_PWM_GROUP, APP_IR_PWM_CHANNEL, 0u);
     app_ir_carrier_off();
 }
 

@@ -124,9 +124,11 @@ ir repeat action=none
 
 默认 `IR_UART_DEBUG=1 IR_VERBOSE_DEBUG=0 POWER_DOWN_ENABLE=1`:
 
-- ROM: 5837 bytes。
+- ROM: 6211 bytes。
 - External RAM: 27 bytes。
-- Stack starts at `0x5f`，可用 161 bytes。
+- Stack starts at `0x66`，可用 154 bytes。
+
+以上数值于 2026-08-20 使用当前 `Stc8hBase` 的 PWM `group + channel` API 重新构建得到。
 
 关闭 UART 调试 `IR_UART_DEBUG=0 POWER_DOWN_ENABLE=1`:
 

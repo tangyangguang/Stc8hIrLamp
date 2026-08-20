@@ -3,7 +3,10 @@
 #include "stc8h_gpio.h"
 #include "stc8h_pwm.h"
 
+#define APP_LIGHT_PWM_GROUP   STC8H_PWM_GROUP_A
 #define APP_LIGHT_PWM_CHANNEL STC8H_PWM_CHANNEL_1
+#define APP_LIGHT_PWM_PIN     STC8H_PWM_PIN_PWM1_P10
+#define APP_LIGHT_PWM_PRESCALER 0u
 #define APP_LIGHT_PWM_FREQ_HZ 1000UL
 #define APP_LIGHT_PWM_PERIOD ((stc8h_u16)((STC8H_SYSCLK_HZ / APP_LIGHT_PWM_FREQ_HZ) - 1UL))
 #define APP_LIGHT_DUTY(percent) \
@@ -48,18 +51,19 @@ static void app_light_led_set(stc8h_u8 on)
 
 static void app_light_apply_pwm(void)
 {
-    (void)stc8h_pwm_set_duty(APP_LIGHT_PWM_CHANNEL, brightness_duty[level_index]);
+    (void)stc8h_pwm_set_duty(APP_LIGHT_PWM_GROUP, APP_LIGHT_PWM_CHANNEL,
+                             brightness_duty[level_index]);
 }
 
 static void app_light_output_on(void)
 {
     app_light_apply_pwm();
-    (void)stc8h_pwm_enable(APP_LIGHT_PWM_CHANNEL);
+    (void)stc8h_pwm_enable(APP_LIGHT_PWM_GROUP, APP_LIGHT_PWM_CHANNEL);
 }
 
 static void app_light_output_off(void)
 {
-    (void)stc8h_pwm_disable(APP_LIGHT_PWM_CHANNEL);
+    (void)stc8h_pwm_disable(APP_LIGHT_PWM_GROUP, APP_LIGHT_PWM_CHANNEL);
     stc8h_gpio_write(BOARD_LAMP_PWM_PORT, BOARD_LAMP_PWM_PIN, 0u);
 }
 
@@ -130,7 +134,10 @@ void app_light_init(void)
     led_flash_ms = 0u;
     timer_feedback_ms = 0u;
 
-    (void)stc8h_pwm_init(APP_LIGHT_PWM_CHANNEL, APP_LIGHT_PWM_PERIOD);
+    (void)stc8h_pwm_set_prescaler(APP_LIGHT_PWM_GROUP, APP_LIGHT_PWM_PRESCALER);
+    (void)stc8h_pwm_set_period(APP_LIGHT_PWM_GROUP, APP_LIGHT_PWM_PERIOD);
+    (void)stc8h_pwm_init_channel(APP_LIGHT_PWM_GROUP, APP_LIGHT_PWM_CHANNEL,
+                                 APP_LIGHT_PWM_PIN);
     app_light_turn_off();
     app_light_led_set(0u);
 }

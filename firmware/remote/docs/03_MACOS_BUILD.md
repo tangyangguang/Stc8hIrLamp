@@ -44,6 +44,15 @@ pio run -e STC8H1K08_2TY_NoLED -t upload --upload-port <serial-port>
 
 `include/app_config.h` 中 `STC8H_SYSCLK_HZ` 必须与芯片实际 IRC 频率一致。当前配置为 `6000000UL`，烧录日志中的 `Target frequency` 或 `Trimming frequency` 应接近 6MHz。
 
+## 构建资源
+
+2026-08-20 在当前基础库 PWM 通用 API 下全量重新构建：
+
+- J3Y 带 LED：Flash `4191 / 8192` bytes（51.2%），无 XDATA 分配，栈可用 197 bytes。
+- 2TY 无 LED：Flash `4171 / 8192` bytes（50.9%），无 XDATA 分配，栈可用 197 bytes。
+
+两种构建均仅保留 PWMA CH1；占空比只写入已校验范围，PWM 热路径不保留通道检查、占空比钳位或周期/预分频 RAM 镜像。
+
 ## 硬件验证记录
 
 2026-05-12 实测：

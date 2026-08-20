@@ -21,7 +21,7 @@
 本项目启用基础库通用裁剪宏以适配 STC8H1K08 8KB flash：
 
 - `STC8H_GPIO_PORT_MASK=0x0A`: 只保留 P1/P3 分支。
-- `STC8H_PWM_CHANNEL_MASK=0x01`: 只保留 PWMA channel 1。
+- `STC8H_PWM_GROUP_MASK=0x01`、`STC8H_PWM_A_CHANNEL_MASK=0x01`：只保留 PWMA channel 1；PWMB 分支不编译。
 - `STC8H_TIMER_ENABLE_1MS=0`: 不编译 Timer0 1ms 初始化。
 - `STC8H_TIMER_ENABLE_TIMER0_FREE_RUN=1`: 保留 Timer0 12T free-run。
 - `STC8H_TIMER0_ROLE_FREE_RUN`: 声明 Timer0 被本固件作为 free-run 使用，和基础库 1T delay 角色互斥。
