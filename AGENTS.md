@@ -1,5 +1,7 @@
 # 项目规则
 
+> 目录于 2026-09-08 从 `/Users/tyg/dir/codex_dir/Stc8hIrLamp` 迁移到 `/Users/tyg/workspace/iot/devices/Stc8hIrLamp`；仓库仍可能包含旧路径，执行相关命令前先按新目录核对并修正，完成本项目的路径清理和验证后删除本条。
+
 - 本仓库是 STC8H 红外遥控夜灯产品仓库，包含夜灯固件、遥控器固件和老 Keil 工程归档。
 - `firmware/lamp` 和 `firmware/remote` 使用相邻目录中的 `Stc8hBase` 基础库，不复制基础库源码。
 - `legacy/` 为历史归档，除非用户明确要求，不修改老 Keil 工程内容。

@@ -1,4 +1,4 @@
-BASE ?= ../../../Stc8hBase
+BASE ?= ../../../../foundation/Stc8hBase
 BUILD := build
 IR_UART_DEBUG ?= 1
 IR_VERBOSE_DEBUG ?= 0
